@@ -12,6 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/footer.css">
 </head>
 
 <body>
@@ -44,6 +45,14 @@
     <div style="margin-left:25%;padding:1px 16px;">
         
     </div>
+    <footer>
+        <p><b>members</b></p>
+        <ol>
+            <li>Chananpat 662132056</li>
+            <li>Thiraphat Kharinchai 662132057</li>
+            <li>Wayupak Watcharasirisereekul 662132058</li>
+        </ol>
+    </footer>
 
     <!-- ionicon -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

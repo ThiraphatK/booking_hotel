@@ -11,6 +11,9 @@
 - วันที่ออกห้องพัก
 - ปุ่มยืนยันการจอง
 -->
+<?php
+require('./script/db_connect.php');
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,10 +26,19 @@
         th {
             text-align: right;
         }
+
+        .input-group {
+            margin-top: 1%;
+        }
+
+        .botton-form {
+            margin-top: 1%;
+        }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/footer.css">
 </head>
 
 <body>
@@ -58,85 +70,71 @@
 
     <div style="margin-left:25%;padding:1px 16px;">
         <!-- header -->
-        <h2>
+        <h1>
             <center>Register user information</center>
-        </h2>
-        <hr style="width: 50%;">
+        </h1>
+        <hr>
 
         <!-- form -->
-        <center>
-            <form action="" method="post">
-                <table>
-                    <tr>
-                        <th> Tourist company: </th>
-                        <td>
-                            <input type="text" name="company" id="company" value="Tourist A" disabled required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Title: </th>
-                        <td>
-                            <select name="title" id="title" required>
-                                <option value="mr" selected>Mr.</option>
-                                <option value="ms">Ms.</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>First name: </th>
-                        <td>
-                            <input type="text" name="first_name" id="first_name" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Last name: </th>
-                        <td>
-                            <input type="text" name="last_name" id="last_name" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Email: </th>
-                        <td>
-                            <input type="email" name="email" id="email">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Phone: </th>
-                        <td>
-                            <input type="text" name="phone" id="phone">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Room no.</th>
-                        <td>
-                            <select name="room" id="room" required>
-                                <option value="101">101</option>
-                                <option value="102">102</option>
-                                <option value="103">103</option>
-                                <option value="104">104</option>
-                                <option value="105">105</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Check in.: </th>
-                        <td>
-                            <input type="datetime-local" name="check_in" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Check out.: </th>
-                        <td>
-                            <input type="datetime-local" name="check_out" id="check_out" required>
-                        </td>
-                    </tr>
-                </table>
-                <input type="button" value="submit">
+        <form method="post">
+            <div class="input-group">
+                <span class="input-group-text">Tourist company</span>
+                <select class="form-select" name="select" required>
+                    <?php
+                    $query = "select name from tourist;";
+                    $check = mysqli_query($con, $query);
+                    while ($row = mysqli_fetch_assoc($check)) {
+                        echo "<option value=" . $row['name'] . ">" . $row['name'] . "</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Title</span>
+                <select class="form-select" name="select" required>
+                    <option value="mr">Mr.</option>
+                    <option value="ms">Ms.</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Email</span>
+                <input type="email" aria-label="email" name="email" class="form-control" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Phone</span>
+                <input type="text" aria-label="phone" name="phone" class="form-control" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Room no.</span>
+                <select class="form-select" name="select" required>
+                    <?php
+                    $query = "select r.room_id from room r left join booking_calendar bc on r.room_id = bc.room_id  where bc.status LIKE 'clear';";
+                    $check = mysqli_query($con, $query);
+                    while ($row = mysqli_fetch_assoc($check)) {
+                        echo "<option value=" . $row['room_id'] . ">" . $row['room_id'] . "</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Check in</span>
+                <input type="datetime-local" aria-label="check_in" class="form-control" name="check_in" required>
+                <span class="input-group-text">Check out</span>
+                <input type="datetime-local" aria-label="check_out" class="form-control" name="check_out" required>
+            </div>
+            <input type="button" class="btn btn-success botton-form" value="submit">
+        </form>
 
-            </form>
-
-        </center>
     </div>
+
+    <footer>
+        <p><b>members</b></p>
+        <ol>
+            <li>Chananpat 662132056</li>
+            <li>Thiraphat Kharinchai 662132057</li>
+            <li>Wayupak Watcharasirisereekul 662132058</li>
+        </ol>
+    </footer>
 
     <!-- ionicon -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
