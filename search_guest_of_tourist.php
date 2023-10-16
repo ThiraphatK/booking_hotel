@@ -55,7 +55,6 @@ require('./script/db_connect.php');
                             <button type="submit" name="submit" class="btn btn-success">search</button>
                         </div>
                     </form>
-                    <?php echo"<p style='margin-top:2%'>booking id: ".$_POST["booking_id"]."</p>" ?>
                     <?php
                     if (isset($_POST['submit'])) {
                         $sql = "call search_booking_id('" . $_POST["booking_id"] . "');";
@@ -65,6 +64,7 @@ require('./script/db_connect.php');
                             echo "<p class='text-center py-4'><span class='badge bg-danger' style='front-size:20px'>Not found</span></p>";
                         } else {
                     ?>
+                            <?php echo"<p style='margin-top:2%'>booking id: ".$_POST["booking_id"]."</p>" ?>
                             <table class='table table-bordered mt-4 table-striped'>
                                 <thead class='table-secondary'>
                                     <tr>
