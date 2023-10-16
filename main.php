@@ -22,18 +22,19 @@
             </a>
         </li>
         <li>
-            <a href="./report_tourist.php">
-                <ion-icon name="bar-chart"></ion-icon> Report tourist
+            <a href="./search_guest_of_tourist.php">
+                <ion-icon name="people-circle"></ion-icon> Search guest of tourist
+            </a>
+        </li>
+        <li>
+            <a href="./search_room.php">
+                <ion-icon name="search"></ion-icon> Search room
             </a>
         </li>
         <li>
             <a href="./booking_room.php">
                 <ion-icon name="today"></ion-icon></ion-icon> Booking room
             </a>
-        </li>
-        <li>
-            <a href="./booking_room_change.php">
-                <ion-icon name="construct"></ion-icon></ion-icon> Change data</a>
         </li>
     </ul>
 
@@ -44,7 +45,7 @@
         <hr>
         <p><b>members</b></p>
         <ol>
-            <li>Chananpat 662132056</li>
+            <li>Chananpat Kitpatcharakulchot 662132056</li>
             <li>Thiraphat Kharinchai 662132057</li>
             <li>Wayupak Watcharasirisereekul 662132058</li>
         </ol>

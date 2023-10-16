@@ -54,16 +54,16 @@ require('./script/db_connect.php');
         </li>
         <li>
             <a href="./search_guest_of_tourist.php">
-                <ion-icon name="people-circle"></ion-icon> Search guest of tourist
+                <ion-icon name="people-circle"></ion-icon> ReSearch guest of tourist
             </a>
         </li>
         <li>
-            <a href="./search_room.php">
+            <a class="active" href="./search_room.php">
                 <ion-icon name="search"></ion-icon> Search room
             </a>
         </li>
         <li>
-            <a class="active" href="./booking_room.php">
+            <a href="./booking_room.php">
                 <ion-icon name="today"></ion-icon></ion-icon> Booking room
             </a>
         </li>
@@ -72,60 +72,58 @@ require('./script/db_connect.php');
     <div style="margin-left:25%;padding:1px 16px;">
         <!-- header -->
         <h1>
-            <center>Register user information</center>
+            <center>Search empty rooms</center>
         </h1>
         <hr>
 
         <!-- form -->
         <form method="post">
-            <div class="input-group">
-                <span class="input-group-text">Tourist company</span>
-                <select class="form-select" name="select" required>
-                    <?php
-                    $query = "select name from tourist;";
-                    $check = mysqli_query($con, $query);
-                    while ($row = mysqli_fetch_assoc($check)) {
-                        echo "<option value=" . $row['name'] . ">" . $row['name'] . "</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-            <div class="input-group">
-                <span class="input-group-text">Title</span>
-                <select class="form-select" name="select" required>
-                    <option value="mr">Mr.</option>
-                    <option value="ms">Ms.</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <span class="input-group-text">Email</span>
-                <input type="email" aria-label="email" name="email" class="form-control" required>
-            </div>
-            <div class="input-group">
-                <span class="input-group-text">Phone</span>
-                <input type="text" aria-label="phone" name="phone" class="form-control" required>
-            </div>
-            <div class="input-group">
-                <span class="input-group-text">Room no.</span>
-                <select class="form-select" name="select" required>
-                    <?php
-                    $query = "select r.room_id from room r left join booking_calendar bc on r.room_id = bc.room_id  where bc.status LIKE 'clear';";
-                    $check = mysqli_query($con, $query);
-                    while ($row = mysqli_fetch_assoc($check)) {
-                        echo "<option value=" . $row['room_id'] . ">" . $row['room_id'] . "</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-            <div class="input-group">
+            <div class="input-group col">
                 <span class="input-group-text">Check in</span>
-                <input type="datetime-local" aria-label="check_in" class="form-control" name="check_in" required>
-                <span class="input-group-text">Check out</span>
-                <input type="datetime-local" aria-label="check_out" class="form-control" name="check_out" required>
+                <input type="date" aria-label="check_in" class="form-control" name="check_in" value="check_in" required>
             </div>
-            <input type="button" class="btn btn-success botton-form" value="submit">
+            <div class="input-group col">
+                <span class="input-group-text">Check out</span>
+                <input type="date" aria-label="check_out" class="form-control" name="check_out" value="check_out" required>
+            </div>
+            <div class="col" style="margin-top: 1%;">
+                <button type="submit" name="submit" class="btn btn-success">search</button>
+            </div>
         </form>
-
+        <?php
+        if (isset($_POST['submit'])) {
+            $sql = "call date_room_status('".$_POST['check_in']."', '".$_POST['check_out']."');";
+            $query = mysqli_query($con, $sql);
+            $check_data = mysqli_num_rows($query);
+            if ($_POST['check_out'] < $_POST['check_in']) {
+                echo "<p class='text-center py-4'><span class='badge bg-danger' style='front-size:20px'>check out date must more than check in date</span></p>";
+            } else {
+        ?>
+                <?php echo "<p style='margin-top: 2%'>Check in date: ".$_POST['check_in']."</p><p>Check in date: ".$_POST['check_out']."</p>"; ?>
+                <table class='table table-bordered mt-4 table-striped'>
+                    <thead class='table-secondary'>
+                        <tr>
+                            <th scope='col'>No.</th>
+                            <th scope='col'>Room no.</th>
+                            <th scope='col'>description/th>
+                            <th scope='col'>price</th>
+                            <th scope='col'>status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($result = mysqli_fetch_assoc($query)) { ?>
+                            <tr>
+                                <td><?php echo $result['row_num']; ?></td>
+                                <td><?php echo $result['room_id']; ?></td>
+                                <td><?php echo $result['description']; ?></td>
+                                <td><?php echo $result['price']; ?></td>
+                                <td><?php echo $result['room_status']; ?></td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            <?php } ?>
+        <?php } ?>
     </div>
 
     <footer>
