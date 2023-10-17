@@ -80,11 +80,11 @@ require('./script/db_connect.php');
         <form method="post">
             <div class="input-group col">
                 <span class="input-group-text">Check in</span>
-                <input type="date" aria-label="check_in" class="form-control" name="check_in" value="check_in" required>
+                <input type="date" aria-label="check_in" class="form-control" name="check_in" value="<?php if (isset($_POST['submit'])) {echo $_POST['check_in'];} ?>" required>
             </div>
             <div class="input-group col">
                 <span class="input-group-text">Check out</span>
-                <input type="date" aria-label="check_out" class="form-control" name="check_out" value="check_out" required>
+                <input type="date" aria-label="check_out" class="form-control" name="check_out" value="<?php if (isset($_POST['submit'])) {echo $_POST['check_out'];} ?>" required>
             </div>
             <div class="col" style="margin-top: 1%;">
                 <button type="submit" name="submit" class="btn btn-success">search</button>
@@ -99,13 +99,12 @@ require('./script/db_connect.php');
                 echo "<p class='text-center py-4'><span class='badge bg-danger' style='front-size:20px'>check out date must more than check in date</span></p>";
             } else {
         ?>
-                <?php echo "<p style='margin-top: 2%'>Check in date: ".$_POST['check_in']."</p><p>Check in date: ".$_POST['check_out']."</p>"; ?>
                 <table class='table table-bordered mt-4 table-striped'>
                     <thead class='table-secondary'>
                         <tr>
                             <th scope='col'>No.</th>
                             <th scope='col'>Room no.</th>
-                            <th scope='col'>description/th>
+                            <th scope='col'>description</th>
                             <th scope='col'>price</th>
                             <th scope='col'>status</th>
                         </tr>

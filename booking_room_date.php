@@ -64,34 +64,14 @@ require('./script/db_connect.php');
         <hr>
 
         <!-- form -->
-        <form method="get" action="./booking_room_date.php">
+        <form method="post">
             <div class="input-group">
                 <span class="input-group-text">Tourist company</span>
-                <select class="form-select" name="select" required>
-                    <option value="" selected disabled>-- เลือกทัวร์ --</option>
-                    <option value="บริษัท การท่องเที่ยวอับดับหนึ่ง จำกัด" <?php if (isset($_POST['select'])) {
-                                                    if ($_POST['select'] == "first_tour") {
-                                                        echo "selected";
-                                                    }
-                                                } ?>>บริษัท การท่องเที่ยวอับดับหนึ่ง จำกัด</option>
-                    <option value="second_tour" <?php if (isset($_POST['select'])) {
-                                                    if ($_POST['select'] == "second_tour") {
-                                                        echo "selected";
-                                                    }
-                                                } ?>>บริษัท การท่องเที่ยวอับดับสอง จำกัด</option>
-                    <option value="third_tour" <?php if (isset($_POST['select'])) {
-                                                    if ($_POST['select'] == "third_tour") {
-                                                        echo "selected";
-                                                    }
-                                                } ?>>บริษัท การท่องเที่ยวอับดับสาม จำกัด</option>
-                </select>
+                <input type="text" class='form-control' name="select" id="select" value="<?php echo $_GET['select'] ?>">
             </div>
             <div class="input-group">
                 <span class="input-group-text">Title</span>
-                <select class="form-select" name="title" required>
-                    <option value="mr">Mr.</option>
-                    <option value="ms">Ms.</option>
-                </select>
+                <input type="text" name="title" id="title" value="<?php echo $_GET['title'] ?>" disabled>
             </div>
             <div class="input-group">
                 <span class="input-group-text">First name</span>
@@ -136,7 +116,7 @@ require('./script/db_connect.php');
             </div>
         </form>
         <?php if (isset($_POST['search'])) {
-            $guest = "call create_guest('" . $_POST['title'] . "','" . $_POST['firstname'] . "','" . $_POST['lastname'] . "','" . $_POST['phone'] . "','" . $_POST['email'] . "');";
+            $guest = "call create_guest('" . $_POST['select'] . "','" . $_POST['firstname'] . "','" . $_POST['lastname'] . "','" . $_POST['phone'] . "','" . $_POST['email'] . "');";
             $query = mysqli_query($con, $guest);
 
             $sql = "call date_room_status('" . $_POST['check_in'] . "', '" . $_POST['check_out'] . "');";
@@ -147,28 +127,28 @@ require('./script/db_connect.php');
                 echo "<p class='text-center py-4'><span class='badge bg-danger' style='front-size:20px'>check out date must more than check in date</span></p>";
             } else {
         ?>
-                <form method="post">
-                    <div class="input-group">
-                        <span class="input-group-text">Room</span>
-                        <select class="form-select" name="select" required>
-                            <?php
-                            // $query = "select name from tourist;";
-                            // $check = mysqli_query($con, $query);
-                            while ($row = mysqli_fetch_assoc($query)) {
-                                echo "<option value=" . $row['room_id'] . ">room id: " . $row['room_id'] . ", description: " . $row['description'] . ", price: " . $row['price'] . "</option>";
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div style="margin-top: 1%;">
-                        <button type="submit" name="submit" class="btn btn-success">submit</button>
-                    </div>
-                </form>
-                <?php
-                if (isset($_POST['submit'])) {
-                    echo "test";
-                }
-                ?>
+            <form method="post">
+                <div class="input-group">
+                    <span class="input-group-text">Room</span>
+                    <select class="form-select" name="select" required>
+                        <?php
+                        // $query = "select name from tourist;";
+                        // $check = mysqli_query($con, $query);
+                        while ($row = mysqli_fetch_assoc($query)) {
+                            echo "<option value=".$row['room_id'].">room id: ".$row['room_id'].", description: ".$row['description'].", price: ".$row['price']."</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div style="margin-top: 1%;">
+                    <button type="submit" name="submit" class="btn btn-success">submit</button>
+                </div>
+            </form>
+            <?php
+            if (isset($_POST['submit'])) {
+                echo "test";
+            }
+            ?>
                 <!-- <table class='table table-bordered mt-4 table-striped'>
                     <thead class='table-secondary'>
                         <tr>
