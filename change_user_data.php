@@ -59,7 +59,7 @@
     <hr>
     <h3>Register</h3>
     <div class="container">
-        <form method="POST" action="./script/login_system.php">
+        <form method="POST">
             <!-- input username -->
             <label for="username">Username</label>
             <input type="text" name="username" id="username" require>
@@ -73,8 +73,15 @@
                 <p id="number" class="invalid">A <b>number</b></p>
             </div>
             <input type="submit" value="Submit" id="submit" disabled>
+        </form>
     </div>
-    <a href="./login.php">back to login</a>
+    <?php
+    if (isset($_POST['submit'])) {
+        $sql = "update tourist set password=".$_POST['pasword'].";";
+        $query = mysqli_query($con, $sql);
+    }
+    ?>
+    <a href="./signin.php">back to login</a>
 
 
     <script>

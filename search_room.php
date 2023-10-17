@@ -54,7 +54,7 @@ require('./script/db_connect.php');
         </li>
         <li>
             <a href="./search_guest_of_tourist.php">
-                <ion-icon name="people-circle"></ion-icon> ReSearch guest of tourist
+                <ion-icon name="people-circle"></ion-icon> Search guest of tourist
             </a>
         </li>
         <li>

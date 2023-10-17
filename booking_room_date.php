@@ -102,14 +102,13 @@ require('./script/db_connect.php');
             <div class="input-group">
                 <span class="input-group-text">Room</span>
                 <select class="form-select" aria-label="room_id" name="room_id">
-                <option value="102">102</option>
-                <!-- <?php
+                <?php
                     $sql = "call date_room_status('" . $_GET['check_in'] . "', '" . $_GET['check_out'] . "');";
                     $query = mysqli_query($con, $sql);
                     while($row = mysqli_fetch_array($query)){
                     echo "<option name='room_id' value = ".$row['room_id'].">room id: ".$row['room_id'].", type:".$row['description']." price: ".$row['price']."</option>";
                     }
-                ?> -->
+                ?>
                 </select>
             </div>
             <div style="margin-top: 1%;">
@@ -118,34 +117,12 @@ require('./script/db_connect.php');
         </form>
         <?php
             if (isset($_GET['submit'])) {
-                echo "room id: ".$_GET['room_id']."<br>";
-                echo "check in date: ".$_GET['check_in']."<br>";
-                echo "check out date: ".$_GET['check_out']."<br>";
-                echo "tour name: ".$_GET['select']."<br>";
-                echo "title: ".$_GET['title']."<br>";
-                echo "first name: ".$_GET['firstname']."<br>";
-                echo "last name: ".$_GET['lastname']."<br>";
-                echo "phone: ".$_GET['phone']."<br>";
-                echo "email: ".$_GET['email']."<br>";
-
-                $sql = "call booking_room_test('".$_GET['room_id']."', '".$_GET['check_in']."', '".$_GET['check_out']."', '".$_GET['select']."','".$_GET['title']."', '".$_GET['firstname']."', '".$_GET['lastname']."', '".$_GET['phone']."', '".$_GET['email']."');";
-                echo $sql;
+                $sql = "call booking_room('".$_GET['title']."', '".$_GET['firstname']."', '".$_GET['lastname']."', '".$_GET['phone']."','".$_GET['email']."', '".$_GET['select']."', '".$_GET['check_in']."', '".$_GET['check_out']."', '".$_GET['room_id']."');";
                 $result = mysqli_query($con, $sql);
-
                 echo "success";
             }
         ?>
     </div>
-
-    <!-- <footer>
-        <p><b>members</b></p>
-        <ol>
-            <li>Chananpat Kitpatcharakulchot 662132056</li>
-            <li>Thiraphat Kharinchai 662132057</li>
-            <li>Wayupak Watcharasirisereekul 662132058</li>
-        </ol>
-    </footer> -->
-
     <!-- ionicon -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

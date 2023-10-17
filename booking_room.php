@@ -136,12 +136,9 @@ require('./script/db_connect.php');
             </div>
         </form>
         <?php if (isset($_POST['search'])) {
-            $guest = "call create_guest('" . $_POST['title'] . "','" . $_POST['firstname'] . "','" . $_POST['lastname'] . "','" . $_POST['phone'] . "','" . $_POST['email'] . "');";
-            $query = mysqli_query($con, $guest);
 
-            $sql = "call date_room_status('" . $_POST['check_in'] . "', '" . $_POST['check_out'] . "');";
+            $sql = "call find_vacant_room()";
             $query = mysqli_query($con, $sql);
-            // $check_data = mysqli_num_rows($query);
 
             if ($_POST['check_out'] < $_POST['check_in']) {
                 echo "<p class='text-center py-4'><span class='badge bg-danger' style='front-size:20px'>check out date must more than check in date</span></p>";
@@ -152,8 +149,6 @@ require('./script/db_connect.php');
                         <span class="input-group-text">Room</span>
                         <select class="form-select" name="select" required>
                             <?php
-                            // $query = "select name from tourist;";
-                            // $check = mysqli_query($con, $query);
                             while ($row = mysqli_fetch_assoc($query)) {
                                 echo "<option value=" . $row['room_id'] . ">room id: " . $row['room_id'] . ", description: " . $row['description'] . ", price: " . $row['price'] . "</option>";
                             }
@@ -164,55 +159,9 @@ require('./script/db_connect.php');
                         <button type="submit" name="submit" class="btn btn-success">submit</button>
                     </div>
                 </form>
-                <?php
-                if (isset($_POST['submit'])) {
-                    echo "test";
-                }
-                ?>
-                <!-- <table class='table table-bordered mt-4 table-striped'>
-                    <thead class='table-secondary'>
-                        <tr>
-                            <th scope='col'>No.</th>
-                            <th scope='col'>Room no.</th>
-                            <th scope='col'>description</th>
-                            <th scope='col'>price</th>
-                            <th scope='col'>status</th>
-                            <th scope="col">booking</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($result = mysqli_fetch_assoc($query)) { ?>
-                            <tr>
-                                <form method="post">
-                                    <td><?php echo $result['row_num']; ?></td>
-                                    <td><?php echo $result['room_id']; ?></td>
-                                    <td><?php echo $result['description']; ?></td>
-                                    <td><?php echo $result['price']; ?></td>
-                                    <td><?php echo $result['room_status']; ?></td>
-                                    <td><button type="submit" name="submit" class="btn btn-success"><ion-icon name="create-outline"></ion-icon>booking</button></td>
-                                </form>
-                                <?php
-                                if (isset($_POST['submit'])) {
-                                    echo $_POST['row_num'];
-                                    $query = mysqli_query($con, $sql);
-                                    $check_data = mysqli_num_rows($query);
-                                } ?>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table> -->
             <?php } ?>
         <?php } ?>
     </div>
-
-    <!-- <footer>
-        <p><b>members</b></p>
-        <ol>
-            <li>Chananpat Kitpatcharakulchot 662132056</li>
-            <li>Thiraphat Kharinchai 662132057</li>
-            <li>Wayupak Watcharasirisereekul 662132058</li>
-        </ol>
-    </footer> -->
 
     <!-- ionicon -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

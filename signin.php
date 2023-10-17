@@ -71,7 +71,6 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
                 <p class="forgot-password"><a href="./change_user_data.php" target="_blank">Forgot password?</a></p>
-                <p class="forgot-password"><a href="./change_user_data.php" target="_blank">Sign up</a></p>
             </div>
         </div>
     </div>
