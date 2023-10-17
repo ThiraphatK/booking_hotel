@@ -64,125 +64,77 @@ require('./script/db_connect.php');
         <hr>
 
         <!-- form -->
-        <form method="post">
+        <form method="GET">
             <div class="input-group">
                 <span class="input-group-text">Tourist company</span>
                 <input type="text" class='form-control' name="select" id="select" value="<?php echo $_GET['select'] ?>">
             </div>
             <div class="input-group">
                 <span class="input-group-text">Title</span>
-                <input type="text" name="title" id="title" value="<?php echo $_GET['title'] ?>" disabled>
+                <input type="text" class='form-control' name="title" id="title" value="<?php echo $_GET['title'] ?>">
             </div>
             <div class="input-group">
                 <span class="input-group-text">First name</span>
-                <input type="text" aria-label="firstname" name="firstname" class="form-control" value="<?php if (isset($_POST['search'])) {
-                                                                                                            echo $_POST['firstname'];
-                                                                                                        } ?>" required>
+                <input type="text" class='form-control' name="firstname" id="firstname" value="<?php echo $_GET['firstname'] ?>">
             </div>
             <div class="input-group">
                 <span class="input-group-text">Last name</span>
-                <input type="text" aria-label="lastname" name="lastname" class="form-control" value="<?php if (isset($_POST['search'])) {
-                                                                                                            echo $_POST['lastname'];
-                                                                                                        } ?>" required>
+                <input type="text" class='form-control' name="lastname" id="lastname" value="<?php echo $_GET['lastname'] ?>">
             </div>
             <div class="input-group">
                 <span class="input-group-text">Email</span>
-                <input type="email" aria-label="email" name="email" class="form-control" value="<?php if (isset($_POST['search'])) {
-                                                                                                    echo $_POST['email'];
-                                                                                                } ?>" required>
+                <input type="text" class='form-control' name="email" id="email" value="<?php echo $_GET['email'] ?>">
             </div>
             <div class="input-group">
                 <span class="input-group-text">Phone</span>
-                <input type="text" aria-label="phone" name="phone" class="form-control" value="<?php if (isset($_POST['search'])) {
-                                                                                                    echo $_POST['phone'];
-                                                                                                } ?>" required>
+                <input type="text" class='form-control' name="phone" id="phone" value="<?php echo $_GET['phone'] ?>">
             </div>
             <div class="input-group" style="margin-top: 1px;">
                 <div class="input-group col">
                     <span class="input-group-text">Check in</span>
-                    <input type="date" aria-label="check_in" class="form-control" name="check_in" value="<?php if (isset($_POST['search'])) {
-                                                                                                                echo $_POST['check_in'];
-                                                                                                            } ?>" required>
+                    <input type="date" class='form-control' name="check_in" id="check_in" value="<?php echo $_GET['check_in'] ?>">
                 </div>
                 <div class="input-group col" style="margin-left: 2%;">
                     <span class="input-group-text">Check out</span>
-                    <input type="date" aria-label="check_out" class="form-control" name="check_out" value="<?php if (isset($_POST['search'])) {
-                                                                                                                echo $_POST['check_out'];
-                                                                                                            } ?>" required>
+                    <input type="date" class='form-control' name="check_out" id="check_out" value="<?php echo $_GET['check_out'] ?>">
                 </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Room</span>
+                <select class="form-select" aria-label="room_id" name="room_id">
+                <option value="102">102</option>
+                <!-- <?php
+                    $sql = "call date_room_status('" . $_GET['check_in'] . "', '" . $_GET['check_out'] . "');";
+                    $query = mysqli_query($con, $sql);
+                    while($row = mysqli_fetch_array($query)){
+                    echo "<option name='room_id' value = ".$row['room_id'].">room id: ".$row['room_id'].", type:".$row['description']." price: ".$row['price']."</option>";
+                    }
+                ?> -->
+                </select>
             </div>
             <div style="margin-top: 1%;">
-                <button type="submit" name="search" class="btn btn-success">search</button>
+                <button type="submit" name="submit" class="btn btn-success">submit</button>
             </div>
         </form>
-        <?php if (isset($_POST['search'])) {
-            $guest = "call create_guest('" . $_POST['select'] . "','" . $_POST['firstname'] . "','" . $_POST['lastname'] . "','" . $_POST['phone'] . "','" . $_POST['email'] . "');";
-            $query = mysqli_query($con, $guest);
+        <?php
+            if (isset($_GET['submit'])) {
+                echo "room id: ".$_GET['room_id']."<br>";
+                echo "check in date: ".$_GET['check_in']."<br>";
+                echo "check out date: ".$_GET['check_out']."<br>";
+                echo "tour name: ".$_GET['select']."<br>";
+                echo "title: ".$_GET['title']."<br>";
+                echo "first name: ".$_GET['firstname']."<br>";
+                echo "last name: ".$_GET['lastname']."<br>";
+                echo "phone: ".$_GET['phone']."<br>";
+                echo "email: ".$_GET['email']."<br>";
 
-            $sql = "call date_room_status('" . $_POST['check_in'] . "', '" . $_POST['check_out'] . "');";
-            $query = mysqli_query($con, $sql);
-            // $check_data = mysqli_num_rows($query);
+                $sql = "call booking_room_test('".$_GET['room_id']."', '".$_GET['check_in']."', '".$_GET['check_out']."', '".$_GET['select']."','".$_GET['title']."', '".$_GET['firstname']."', '".$_GET['lastname']."', '".$_GET['phone']."', '".$_GET['email']."');";
+                echo $sql;
+                $result = mysqli_query($con, $sql);
 
-            if ($_POST['check_out'] < $_POST['check_in']) {
-                echo "<p class='text-center py-4'><span class='badge bg-danger' style='front-size:20px'>check out date must more than check in date</span></p>";
-            } else {
-        ?>
-            <form method="post">
-                <div class="input-group">
-                    <span class="input-group-text">Room</span>
-                    <select class="form-select" name="select" required>
-                        <?php
-                        // $query = "select name from tourist;";
-                        // $check = mysqli_query($con, $query);
-                        while ($row = mysqli_fetch_assoc($query)) {
-                            echo "<option value=".$row['room_id'].">room id: ".$row['room_id'].", description: ".$row['description'].", price: ".$row['price']."</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div style="margin-top: 1%;">
-                    <button type="submit" name="submit" class="btn btn-success">submit</button>
-                </div>
-            </form>
-            <?php
-            if (isset($_POST['submit'])) {
-                echo "test";
+                echo "success";
             }
-            ?>
-                <!-- <table class='table table-bordered mt-4 table-striped'>
-                    <thead class='table-secondary'>
-                        <tr>
-                            <th scope='col'>No.</th>
-                            <th scope='col'>Room no.</th>
-                            <th scope='col'>description</th>
-                            <th scope='col'>price</th>
-                            <th scope='col'>status</th>
-                            <th scope="col">booking</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($result = mysqli_fetch_assoc($query)) { ?>
-                            <tr>
-                                <form method="post">
-                                    <td><?php echo $result['row_num']; ?></td>
-                                    <td><?php echo $result['room_id']; ?></td>
-                                    <td><?php echo $result['description']; ?></td>
-                                    <td><?php echo $result['price']; ?></td>
-                                    <td><?php echo $result['room_status']; ?></td>
-                                    <td><button type="submit" name="submit" class="btn btn-success"><ion-icon name="create-outline"></ion-icon>booking</button></td>
-                                </form>
-                                <?php
-                                if (isset($_POST['submit'])) {
-                                    echo $_POST['row_num'];
-                                    $query = mysqli_query($con, $sql);
-                                    $check_data = mysqli_num_rows($query);
-                                } ?>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table> -->
-            <?php } ?>
-        <?php } ?>
+        ?>
     </div>
 
     <!-- <footer>

@@ -74,12 +74,12 @@ require('./script/db_connect.php');
                                                         echo "selected";
                                                     }
                                                 } ?>>บริษัท การท่องเที่ยวอับดับหนึ่ง จำกัด</option>
-                    <option value="second_tour" <?php if (isset($_POST['select'])) {
+                    <option value="บริษัท การท่องเที่ยวอับดับสอง จำกัด" <?php if (isset($_POST['select'])) {
                                                     if ($_POST['select'] == "second_tour") {
                                                         echo "selected";
                                                     }
                                                 } ?>>บริษัท การท่องเที่ยวอับดับสอง จำกัด</option>
-                    <option value="third_tour" <?php if (isset($_POST['select'])) {
+                    <option value="บริษัท การท่องเที่ยวอับดับสาม จำกัด" <?php if (isset($_POST['select'])) {
                                                     if ($_POST['select'] == "third_tour") {
                                                         echo "selected";
                                                     }
@@ -89,8 +89,8 @@ require('./script/db_connect.php');
             <div class="input-group">
                 <span class="input-group-text">Title</span>
                 <select class="form-select" name="title" required>
-                    <option value="mr">Mr.</option>
-                    <option value="ms">Ms.</option>
+                    <option value="Mr">Mr.</option>
+                    <option value="Ms">Ms.</option>
                 </select>
             </div>
             <div class="input-group">
