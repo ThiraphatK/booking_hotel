@@ -64,62 +64,117 @@ SET character_set_client = @saved_cs_client;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `booking_room`(
-    IN prefix_ VARCHAR(45),
-    IN firstname_ VARCHAR(45),
-    IN lastname_ VARCHAR(45),
-    IN phone_ VARCHAR(45),
-    IN email_ VARCHAR(45),
-    IN tourname_ VARCHAR(45),
-    IN checkindate_ DATE,
-    IN checkoutdate_ DATE,
-    IN roomid_ INT(10)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `booking_room`(
+
+    IN prefix_ VARCHAR(45),
+
+    IN firstname_ VARCHAR(45),
+
+    IN lastname_ VARCHAR(45),
+
+    IN phone_ VARCHAR(45),
+
+    IN email_ VARCHAR(45),
+
+    IN tourname_ VARCHAR(45),
+
+    IN checkindate_ DATE,
+
+    IN checkoutdate_ DATE,
+
+    IN roomid_ INT(10)
+
 )
-BEGIN
-    DECLARE sql_error TINYINT DEFAULT FALSE;
-    DECLARE guestid_ INT;
-    DECLARE tourid_ INT;
-
-    -- Declare a handler for SQL exceptions
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET sql_error = TRUE;
-
-    START TRANSACTION;
-
-    -- Upsert guest
-    CALL create_guest(prefix_, firstname_, lastname_, phone_, email_);
-
-    -- Find guest id
-    SELECT guest_id INTO guestid_ FROM guest WHERE firstname LIKE firstname_ AND lastname LIKE lastname_;
-
-    -- Find tour id
-    SELECT tourist_id INTO tourid_ FROM tourist WHERE name LIKE tourname_;
-
-    -- Insert booking
-    INSERT INTO booking (
-        checkin_date,
-        checkout_date,
-        booking_date,
-        commission,
-        booking_status,
-        tourist_id,
-        guest_id,
-        room_id
-    ) VALUES (
-        checkindate_,
-        checkoutdate_,
-        CURRENT_TIMESTAMP,
-        0.07,
-        'success',
-        tourid_,
-        guestid_,
-        roomid_
-    );
-
-    IF sql_error = FALSE THEN
-        COMMIT;
-    ELSE
-        ROLLBACK;
-    END IF;
+BEGIN
+
+    DECLARE sql_error TINYINT DEFAULT FALSE;
+
+    DECLARE guestid_ INT;
+
+    DECLARE tourid_ INT;
+
+
+
+    -- Declare a handler for SQL exceptions
+
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET sql_error = TRUE;
+
+
+
+    START TRANSACTION;
+
+
+
+    -- Upsert guest
+
+    CALL create_guest(prefix_, firstname_, lastname_, phone_, email_);
+
+
+
+    -- Find guest id
+
+    SELECT guest_id INTO guestid_ FROM guest WHERE firstname LIKE firstname_ AND lastname LIKE lastname_;
+
+
+
+    -- Find tour id
+
+    SELECT tourist_id INTO tourid_ FROM tourist WHERE name LIKE tourname_;
+
+
+
+    -- Insert booking
+
+    INSERT INTO booking (
+
+        checkin_date,
+
+        checkout_date,
+
+        booking_date,
+
+        commission,
+
+        booking_status,
+
+        tourist_id,
+
+        guest_id,
+
+        room_id
+
+    ) VALUES (
+
+        checkindate_,
+
+        checkoutdate_,
+
+        CURRENT_TIMESTAMP,
+
+        0.07,
+
+        'success',
+
+        tourid_,
+
+        guestid_,
+
+        roomid_
+
+    );
+
+
+
+    IF sql_error = FALSE THEN
+
+        COMMIT;
+
+    ELSE
+
+        ROLLBACK;
+
+    END IF;
+
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -137,12 +192,18 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `create_guest`(in prefix_ varchar(45), in firstname_ varchar(45), in lastname_ varchar(45), in phone_ varchar(45), in email_ varchar(45))
-begin
-	if ((select count(*) from guest where firstname like firstname_ and lastname like lastname_)=1) then
-		update guest set prefix=prefix_, firstname=firstname_,  lastname=lastname_, email=email_, phone=phone_ where firstname like firstname_ and lastname like lastname_;
-	else
-		insert into guest (prefix,firstname,lastname,email,phone) values (prefix_,firstname_,lastname_,email_,phone_);
-	end if;
+begin
+
+	if ((select count(*) from guest where firstname like firstname_ and lastname like lastname_)=1) then
+
+		update guest set prefix=prefix_, firstname=firstname_,  lastname=lastname_, email=email_, phone=phone_ where firstname like firstname_ and lastname like lastname_;
+
+	else
+
+		insert into guest (prefix,firstname,lastname,email,phone) values (prefix_,firstname_,lastname_,email_,phone_);
+
+	end if;
+
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -162,25 +223,34 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `date_room_status`(in checkin date,in checkout date)
 BEGIN
 SELECT 
-    ROW_NUMBER() OVER (ORDER BY room.room_id ASC) AS row_num,
-    room.room_id,
-    room_type.description,
-    room_type.price,
-    booking.checkin_date,
-    booking.checkout_date,
+	ROW_NUMBER() OVER (ORDER BY room_id ASC) AS row_num,
+    room_id,
+    description,
+    price,
     CASE
-        WHEN room.room_id > 0
-        AND (
-           (STR_TO_DATE(checkin, '%Y-%m-%d') >= STR_TO_DATE(booking.checkin_date, '%Y-%m-%d') AND STR_TO_DATE(checkout, '%Y-%m-%d') < STR_TO_DATE(booking.checkin_date, '%Y-%m-%d'))
-            OR (STR_TO_DATE(checkin, '%Y-%m-%d') < STR_TO_DATE(booking.checkout_date, '%Y-%m-%d') AND STR_TO_DATE(booking.checkin_date, '%Y-%m-%d') < STR_TO_DATE(checkout, '%Y-%m-%d'))
-        )
-        THEN 'ไม่ว่าง'
+        WHEN SUM(CASE WHEN room_status = 'ไม่ว่าง' THEN 1 ELSE 0 END) > 0 THEN 'ไม่ว่าง'
         ELSE 'ว่าง'
     END AS room_status
-FROM room
-JOIN room_type ON room.type_id = room_type.type_id
-LEFT JOIN booking ON room.room_id = booking.room_id;
-
+FROM (
+    SELECT 
+		ROW_NUMBER() OVER (ORDER BY room.room_id ASC) AS row_num,
+        room.room_id,
+        room_type.description,
+        room_type.price,
+        CASE
+            WHEN room.room_id > 0
+            AND (
+                (STR_TO_DATE(checkin, '%Y-%m-%d') >= STR_TO_DATE(booking.checkin_date, '%Y-%m-%d') AND STR_TO_DATE(checkout, '%Y-%m-%d') < STR_TO_DATE(booking.checkin_date, '%Y-%m-%d'))
+            OR (STR_TO_DATE(checkin, '%Y-%m-%d') < STR_TO_DATE(booking.checkout_date, '%Y-%m-%d') AND STR_TO_DATE(booking.checkin_date, '%Y-%m-%d') < STR_TO_DATE(checkout, '%Y-%m-%d'))
+            )
+            THEN 'ไม่ว่าง'
+            ELSE 'ว่าง'
+        END AS room_status
+    FROM room
+    JOIN room_type ON room.type_id = room_type.type_id
+    LEFT JOIN booking ON room.room_id = booking.room_id
+) AS subquery
+GROUP BY room_id, description, price;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
