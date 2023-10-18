@@ -73,6 +73,7 @@ require('./script/db_connect.php');
                                         <th scope='col'>last name</th>
                                         <th scope='col'>description</th>
                                         <th scope='col'>price</th>
+                                        <th scope='col'>change customer</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -83,6 +84,7 @@ require('./script/db_connect.php');
                                             <td><?php echo $result['lastname']; ?></td>
                                             <td><?php echo $result['description']; ?></td>
                                             <td><?php echo $result['price_total']; ?></td>
+                                            <td><a href="./edit_profile.php"><ion-icon name="create"></ion-icon>edit</a></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>

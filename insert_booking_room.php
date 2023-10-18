@@ -12,4 +12,3 @@ if ($result) {
 } else {
     echo mysqli_error($con);
 }
-?>
