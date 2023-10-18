@@ -64,7 +64,7 @@ require('./script/db_connect.php');
         <hr>
 
         <!-- form -->
-        <form method="GET">
+        <form method="get" action="./insert_booking_room.php">
             <div class="input-group">
                 <span class="input-group-text">Tourist company</span>
                 <input type="text" class='form-control' name="select" id="select" value="<?php echo $_GET['select'] ?>">
@@ -115,13 +115,6 @@ require('./script/db_connect.php');
                 <button type="submit" name="submit" class="btn btn-success">submit</button>
             </div>
         </form>
-        <?php
-            if (isset($_GET['submit'])) {
-                $sql = "call booking_room('".$_GET['title']."', '".$_GET['firstname']."', '".$_GET['lastname']."', '".$_GET['phone']."','".$_GET['email']."', '".$_GET['select']."', '".$_GET['check_in']."', '".$_GET['check_out']."', '".$_GET['room_id']."');";
-                $result = mysqli_query($con, $sql);
-                echo "success";
-            }
-        ?>
     </div>
     <!-- ionicon -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
