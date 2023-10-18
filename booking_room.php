@@ -65,25 +65,26 @@ require('./script/db_connect.php');
 
         <!-- form -->
         <form method="get" action="./booking_room_date.php">
+            <div id="emailHelp" class="form-text" style="color: red;"><ion-icon name="alert"></ion-icon>Please enter english language.</div>
             <div class="input-group">
                 <span class="input-group-text">Tourist company</span>
                 <select class="form-select" name="select" required>
-                    <option value="" selected disabled>-- เลือกทัวร์ --</option>
-                    <option value="บริษัท การท่องเที่ยวอับดับหนึ่ง จำกัด" <?php if (isset($_POST['select'])) {
+                    <option value="" selected disabled>-- tour name --</option>
+                    <option value="Mushroom Travel" <?php if (isset($_POST['select'])) {
                                                     if ($_POST['select'] == "first_tour") {
                                                         echo "selected";
                                                     }
-                                                } ?>>บริษัท การท่องเที่ยวอับดับหนึ่ง จำกัด</option>
-                    <option value="บริษัท การท่องเที่ยวอับดับสอง จำกัด" <?php if (isset($_POST['select'])) {
+                                                } ?>>Mushroom Travel</option>
+                    <option value="Hello Travel" <?php if (isset($_POST['select'])) {
                                                     if ($_POST['select'] == "second_tour") {
                                                         echo "selected";
                                                     }
-                                                } ?>>บริษัท การท่องเที่ยวอับดับสอง จำกัด</option>
-                    <option value="บริษัท การท่องเที่ยวอับดับสาม จำกัด" <?php if (isset($_POST['select'])) {
+                                                } ?>>Hello Travel</option>
+                    <option value="At Siam Tour" <?php if (isset($_POST['select'])) {
                                                     if ($_POST['select'] == "third_tour") {
                                                         echo "selected";
                                                     }
-                                                } ?>>บริษัท การท่องเที่ยวอับดับสาม จำกัด</option>
+                                                } ?>>At Siam Tour</option>
                 </select>
             </div>
             <div class="input-group">

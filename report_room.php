@@ -50,22 +50,22 @@ require('./script/db_connect.php');
                     <form method="post" class="row">
                         <div class="col">
                             <select class="form-select" name="select" required>
-                                <option value="" selected disabled>-- เลือกทัวร์ --</option>
+                                <option value="" selected disabled>-- tour name --</option>
                                 <option value="first_tour" <?php if (isset($_POST['select'])) {
                                                                 if ($_POST['select'] == "first_tour") {
                                                                     echo "selected";
                                                                 }
-                                                            } ?>>บริษัท การท่องเที่ยวอับดับหนึ่ง จำกัด</option>
+                                                            } ?>>Mushroom Travel</option>
                                 <option value="second_tour" <?php if (isset($_POST['select'])) {
                                                                 if ($_POST['select'] == "second_tour") {
                                                                     echo "selected";
                                                                 }
-                                                            } ?>>บริษัท การท่องเที่ยวอับดับสอง จำกัด</option>
+                                                            } ?>>Hello Travel</option>
                                 <option value="third_tour" <?php if (isset($_POST['select'])) {
                                                                 if ($_POST['select'] == "third_tour") {
                                                                     echo "selected";
                                                                 }
-                                                            } ?>>บริษัท การท่องเที่ยวอับดับสาม จำกัด</option>
+                                                            } ?>>At Siam Tour</option>
                             </select>
                         </div>
                         <div class="col-md-auto">

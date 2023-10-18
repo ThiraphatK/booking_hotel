@@ -55,6 +55,7 @@ require('./script/db_connect.php');
                         <div class="col-md-auto">
                             <button type="submit" name="submit" class="btn btn-success">search</button>
                         </div>
+                        <div id="emailHelp" class="form-text">Please enter english language</div>
                     </form>
                     <?php
                     if (isset($_POST['submit'])) {
