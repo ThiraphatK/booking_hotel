@@ -71,6 +71,7 @@ require('./script/db_connect.php');
                                 <thead class='table-secondary'>
                                     <tr>
                                         <th scope='col'>Booking id</th>
+                                        <th scope='col'>Guest id</th>
                                         <th scope='col'>first name</th>
                                         <th scope='col'>last name</th>
                                         <th scope='col'>description</th>
@@ -83,6 +84,7 @@ require('./script/db_connect.php');
                                     <?php while ($result = mysqli_fetch_assoc($query)) { ?>
                                         <tr style="text-align: right;">
                                             <td><?php echo $result['booking_id']; ?></td>
+                                            <td><?php echo $result['guest_id']; ?></td>
                                             <td><?php echo $result['firstname']; ?></td>
                                             <td><?php echo $result['lastname']; ?></td>
                                             <td><?php echo $result['description']; ?></td>
