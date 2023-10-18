@@ -48,7 +48,8 @@ require('./script/db_connect.php');
             <div class="row justify-content-md-center">
                 <div class="col-md-8 py-4">
                     <form method="post" class="row">
-                        <div class="col">
+                        <div class="input-group col">
+                            <span class="input-group-text">Guest name</span>
                             <input type="text" aria-label="booking_id" class="form-control" name="booking_id" required>
                         </div>
                         <div class="col-md-auto">
@@ -64,7 +65,7 @@ require('./script/db_connect.php');
                             echo "<p class='text-center py-4'><span class='badge bg-danger' style='front-size:20px'>Not found</span></p>";
                         } else {
                     ?>
-                            <?php echo"<p style='margin-top:2%'>booking id: ".$_POST["booking_id"]."</p>" ?>
+                            <?php echo"<p style='margin-top:2%'>guest name: ".$_POST["booking_id"]."</p>" ?>
                             <table class='table table-bordered mt-4 table-striped'>
                                 <thead class='table-secondary'>
                                     <tr>
@@ -73,17 +74,19 @@ require('./script/db_connect.php');
                                         <th scope='col'>last name</th>
                                         <th scope='col'>description</th>
                                         <th scope='col'>price</th>
+                                        <th scope='col'>check in date</th>
                                         <th scope='col'>change customer</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php while ($result = mysqli_fetch_assoc($query)) { ?>
-                                        <tr>
+                                        <tr style="text-align: right;">
                                             <td><?php echo $result['booking_id']; ?></td>
                                             <td><?php echo $result['firstname']; ?></td>
                                             <td><?php echo $result['lastname']; ?></td>
                                             <td><?php echo $result['description']; ?></td>
                                             <td><?php echo $result['price_total']; ?></td>
+                                            <td><?php echo $result['checkin_date']; ?></td>
                                             <td><a href="./edit_profile.php"><ion-icon name="create"></ion-icon>edit</a></td>
                                         </tr>
                                     <?php } ?>

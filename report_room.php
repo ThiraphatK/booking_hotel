@@ -99,7 +99,7 @@ require('./script/db_connect.php');
                                 </thead>
                                 <tbody>
                                     <?php while ($result = mysqli_fetch_assoc($query)) { ?>
-                                        <tr>
+                                        <tr style="text-align: right;">
                                             <td><?php echo $result['row_num']; ?></td>
                                             <td><?php echo $result['firstname']; ?></td>
                                             <td><?php echo $result['lastname']; ?></td>
