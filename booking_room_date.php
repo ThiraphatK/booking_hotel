@@ -103,7 +103,7 @@ require('./script/db_connect.php');
                 <span class="input-group-text">Room</span>
                 <select class="form-select" aria-label="room_id" name="room_id">
                 <?php
-                    $sql = "call date_room_status('" . $_GET['check_in'] . "', '" . $_GET['check_out'] . "');";
+                    $sql = "call search_vacant_room('" . $_GET['check_in'] . "', '" . $_GET['check_out'] . "');";
                     $query = mysqli_query($con, $sql);
                     while($row = mysqli_fetch_array($query)){
                     echo "<option name='room_id' value = ".$row['room_id'].">room id: ".$row['room_id'].", type:".$row['description']." price: ".$row['price']."</option>";

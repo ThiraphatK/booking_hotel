@@ -137,7 +137,7 @@ require('./script/db_connect.php');
         </form>
         <?php if (isset($_POST['search'])) {
 
-            $sql = "call find_vacant_room()";
+            $sql = "call search_vacant_room('".$_POST['check_in']."','".$_POST['check_out']."')";
             $query = mysqli_query($con, $sql);
 
             if ($_POST['check_out'] < $_POST['check_in']) {

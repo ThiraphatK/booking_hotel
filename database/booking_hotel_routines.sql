@@ -267,9 +267,35 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `find_vacant_room`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `search_vacant_room`(in checkin date, checkout date)
 BEGIN
-	select*from vacant_room where room_status = 'ว่าง';
+WITH newtable AS (
+    SELECT 
+        room.room_id,
+        room_type.description,
+        room_type.price,
+        CASE
+            WHEN room.room_id > 0
+            AND (
+               (STR_TO_DATE(checkin, '%Y-%m-%d') >= STR_TO_DATE(booking.checkin_date, '%Y-%m-%d') AND STR_TO_DATE(checkout, '%Y-%m-%d') < STR_TO_DATE(booking.checkin_date, '%Y-%m-%d'))
+            OR (STR_TO_DATE(checkin, '%Y-%m-%d') < STR_TO_DATE(booking.checkout_date, '%Y-%m-%d') AND STR_TO_DATE(booking.checkin_date, '%Y-%m-%d') < STR_TO_DATE(checkout, '%Y-%m-%d'))
+            )
+            THEN 'ไม่ว่าง'
+            ELSE 'ว่าง'
+        END AS room_status
+    FROM room
+    JOIN room_type ON room.type_id = room_type.type_id
+    LEFT JOIN booking ON room.room_id = booking.room_id
+)
+SELECT 
+    ROW_NUMBER() OVER (ORDER BY room_id ASC) AS row_num,
+    room_id,
+    description,
+    price,
+    MAX(room_status) AS room_status
+FROM newtable
+GROUP BY room_id, description, price
+HAVING COUNT(*) >= 1  AND MAX(room_status) = 'ว่าง';
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
