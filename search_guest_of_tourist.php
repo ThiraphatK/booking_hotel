@@ -90,7 +90,7 @@ require('./script/db_connect.php');
                                             <td><?php echo $result['description']; ?></td>
                                             <td><?php echo $result['price_total']; ?></td>
                                             <td><?php echo $result['checkin_date']; ?></td>
-                                            <td><a href="./edit_profile.php"><ion-icon name="create"></ion-icon>edit</a></td>
+                                            <td><a href="./edit_profile.php"><button type="button" class="btn btn-outline-success"><ion-icon name="create"></ion-icon></button></a></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>

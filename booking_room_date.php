@@ -112,16 +112,11 @@ require('./script/db_connect.php');
                 </select>
             </div>
             <div style="margin-top: 1%;">
-                <button type="submit" name="submit" class="btn btn-success" onclick="clickfunc()">submit</button>
+                <button type="submit" name="submit" class="btn btn-success">submit</button>
             </div>
         </form>
     </div>
 
-    <script>
-        function clickfunc() {
-            alert("Booking room success!");
-        }
-    </script>
     <!-- ionicon -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
